@@ -52,6 +52,7 @@ const profile = {
 		<section class="hero">
 			<h1>{profile.title}</h1>
 			<p class="subtitle">{profile.subtitle}</p>
+			<a href="/posts" class="hero-cta">Read my blog →</a>
 		</section>
 
 		<section class="about">
@@ -182,6 +183,22 @@ const profile = {
 		color: #888;
 		font-size: 0.9rem;
 		margin: 0.5rem 0 0 0;
+	}
+
+	.hero-cta {
+		display: inline-block;
+		margin-top: 1.5rem;
+		padding: 0.75rem 1.5rem;
+		background: #111;
+		color: #fff;
+		text-decoration: none;
+		border-radius: 0.25rem;
+		font-weight: 500;
+		transition: background 0.2s;
+	}
+
+	.hero-cta:hover {
+		background: #333;
 	}
 
 	.links-list {
