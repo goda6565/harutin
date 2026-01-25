@@ -1,0 +1,253 @@
+---
+import Nav from "../components/Nav";
+
+interface Props {
+	title: string;
+	description: string;
+	pubDate: Date;
+	author?: string;
+	tags?: string[];
+	image?: string;
+}
+
+const {
+	title,
+	description,
+	pubDate,
+	author,
+	tags,
+	image = "/favicon.ico",
+} = Astro.props;
+
+const siteTitle = "Harutin";
+const pageTitle = `${title} | ${siteTitle}`;
+const canonicalURL = new URL(
+	Astro.url.pathname,
+	Astro.site ?? "https://example.com",
+);
+const publishedTime = pubDate.toISOString();
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+
+		<!-- Primary Meta Tags -->
+		<title>{pageTitle}</title>
+		<meta name="title" content={pageTitle} />
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalURL} />
+		{author && <meta name="author" content={author} />}
+
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={image} />
+		<meta property="og:site_name" content={siteTitle} />
+		<meta property="article:published_time" content={publishedTime} />
+		{author && <meta property="article:author" content={author} />}
+		{tags && tags.map((tag) => <meta property="article:tag" content={tag} />)}
+
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalURL} />
+		<meta property="twitter:title" content={pageTitle} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={image} />
+	</head>
+	<body>
+		<Nav currentPath={currentPath} client:load />
+		<article>
+			<header>
+				<h1>{title}</h1>
+				<p class="description">{description}</p>
+				<div class="meta">
+					<time datetime={publishedTime}>
+						{pubDate.toLocaleDateString("en-US", {
+							year: "numeric",
+							month: "long",
+							day: "numeric",
+						})}
+					</time>
+					{author && <span class="author">by {author}</span>}
+				</div>
+				{
+					tags && tags.length > 0 && (
+						<ul class="tags">
+							{tags.map((tag) => (
+								<li>
+									<a href={`/posts?tag=${encodeURIComponent(tag)}`}>{tag}</a>
+								</li>
+							))}
+						</ul>
+					)
+				}
+			</header>
+			<div class="content">
+				<slot />
+			</div>
+		</article>
+	</body>
+</html>
+
+<script type="module" is:inline>
+	import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+	mermaid.initialize({ startOnLoad: false, theme: "neutral" });
+
+	document.querySelectorAll('pre[data-language="mermaid"]').forEach((pre) => {
+		const code = pre.querySelector("code");
+		if (!code) return;
+		const container = document.createElement("div");
+		container.className = "mermaid";
+		container.textContent = code.textContent || "";
+		pre.replaceWith(container);
+	});
+
+	mermaid.run();
+</script>
+
+<style>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	article {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 2rem 1rem;
+	}
+
+	header {
+		margin-bottom: 2rem;
+	}
+
+	h1 {
+		font-size: 2.5rem;
+		margin: 0 0 0.75rem;
+		line-height: 1.2;
+	}
+
+	.description {
+		font-size: 1.1rem;
+		color: #555;
+		margin: 0 0 1rem;
+		line-height: 1.6;
+	}
+
+	.meta {
+		font-size: 0.9rem;
+		color: #666;
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.author {
+		color: #888;
+	}
+
+	.tags {
+		list-style: none;
+		padding: 0;
+		margin: 1rem 0 0;
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+
+	.tags li {
+		background: #f0f0f0;
+		border-radius: 0.25rem;
+		font-size: 0.875rem;
+	}
+
+	.tags li a {
+		display: block;
+		padding: 0.25rem 0.75rem;
+		color: #555;
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+
+	.tags li a:hover {
+		background: #e0e0e0;
+	}
+
+	.content {
+		line-height: 1.8;
+	}
+
+	.content :global(h2) {
+		margin-top: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	.content :global(h3) {
+		margin-top: 1.5rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.content :global(pre) {
+		background: #f5f5f5;
+		padding: 1rem;
+		border-radius: 0.5rem;
+		overflow-x: auto;
+	}
+
+	.content :global(code) {
+		font-family: "SF Mono", Consolas, monospace;
+		font-size: 0.9em;
+	}
+
+	.content :global(p code) {
+		background: #f5f5f5;
+		padding: 0.2rem 0.4rem;
+		border-radius: 0.25rem;
+	}
+
+	.content :global(ul),
+	.content :global(ol) {
+		padding-left: 1.5rem;
+	}
+
+	.content :global(li) {
+		margin-bottom: 0.5rem;
+	}
+
+	.content :global(a) {
+		color: #0066cc;
+	}
+
+	.content :global(blockquote) {
+		margin: 1.5rem 0;
+		padding: 0.5rem 1rem;
+		border-left: 3px solid #ddd;
+		color: #666;
+	}
+
+	.content :global(hr) {
+		border: none;
+		border-top: 1px solid #eee;
+		margin: 2rem 0;
+	}
+
+	@media (max-width: 768px) {
+		h1 {
+			font-size: 1.75rem;
+		}
+
+		.description {
+			font-size: 1rem;
+		}
+	}
+</style>

@@ -1,0 +1,80 @@
+---
+import { getCollection } from "astro:content";
+import PostsFilter from "../../components/PostsFilter";
+import Layout from "../../layouts/Layout.astro";
+
+const posts = await getCollection("posts");
+const sortedPosts = posts.sort(
+	(a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime(),
+);
+
+const postsData = sortedPosts.map((post) => ({
+	slug: post.slug,
+	title: post.data.title,
+	description: post.data.description,
+	pubDate: post.data.pubDate.toISOString(),
+	tags: post.data.tags ?? [],
+	author: post.data.author,
+}));
+
+const allTags = [
+	...new Set(sortedPosts.flatMap((post) => post.data.tags ?? [])),
+].sort((a, b) => a.localeCompare(b));
+---
+
+<Layout
+	title="Posts"
+	description="Blog posts about software development, programming, and technology."
+>
+	<main>
+		<header class="page-header">
+			<div>
+				<h1>Posts</h1>
+				<p class="lead">Search and filter by tag.</p>
+			</div>
+			<div class="stats">
+				<span>{sortedPosts.length} total</span>
+			</div>
+		</header>
+
+		<PostsFilter posts={postsData} allTags={allTags} client:load />
+	</main>
+</Layout>
+
+<style>
+	main {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 2rem 1rem 3rem;
+	}
+
+	.page-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-bottom: 1.5rem;
+	}
+
+	h1 {
+		font-size: 2rem;
+		margin: 0 0 0.5rem;
+	}
+
+	.lead {
+		margin: 0;
+		color: #666;
+	}
+
+	.stats {
+		color: #666;
+		font-size: 0.9rem;
+	}
+
+	@media (max-width: 768px) {
+		.page-header {
+			align-items: flex-start;
+		}
+	}
+</style>
