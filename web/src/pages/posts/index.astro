@@ -29,6 +29,7 @@ const allTags = [
 	<main>
 		<header class="page-header">
 			<div>
+				<a class="backLink" href="/" aria-label="Back to Home">← Home</a>
 				<h1>Posts</h1>
 				<p class="lead">Search and filter by tag.</p>
 			</div>
@@ -55,6 +56,28 @@ const allTags = [
 		gap: 1rem;
 		flex-wrap: wrap;
 		margin-bottom: 1.5rem;
+	}
+
+	.backLink {
+		display: inline-block;
+		margin-bottom: 0.75rem;
+		text-decoration: none;
+	}
+
+	.backLink:link,
+	.backLink:visited {
+		color: #666 !important;
+	}
+
+	.backLink:hover {
+		color: #111 !important;
+		text-decoration: underline;
+	}
+
+	.backLink:focus-visible {
+		outline: 2px solid #0066cc;
+		outline-offset: 2px;
+		border-radius: 2px;
 	}
 
 	h1 {

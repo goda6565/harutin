@@ -66,6 +66,7 @@ const currentPath = Astro.url.pathname;
 		<Nav currentPath={currentPath} client:load />
 		<article>
 			<header>
+				<a class="backLink" href="/posts" aria-label="Back to Posts">← Posts</a>
 				<h1>{title}</h1>
 				<p class="description">{description}</p>
 				<div class="meta">
@@ -129,6 +130,28 @@ const currentPath = Astro.url.pathname;
 
 	header {
 		margin-bottom: 2rem;
+	}
+
+	.backLink {
+		display: inline-block;
+		margin-bottom: 0.75rem;
+		text-decoration: none;
+	}
+
+	.backLink:link,
+	.backLink:visited {
+		color: #666 !important;
+	}
+
+	.backLink:hover {
+		color: #111 !important;
+		text-decoration: underline;
+	}
+
+	.backLink:focus-visible {
+		outline: 2px solid #0066cc;
+		outline-offset: 2px;
+		border-radius: 2px;
 	}
 
 	h1 {
