@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 
 const profile = {
-	title: "Hello I'm Haruto Goda",
+	title: "Hello, I'm Haruto Goda (郷田温人)",
 	subtitle: "I'm a software engineer",
 	about:
 		"I'm a software engineer based in Tokyo, Japan. <br> I'm interested in applying AI to services.",
@@ -47,7 +47,10 @@ const profile = {
 };
 ---
 
-<Layout description="Haruto Goda - Software Engineer based in Tokyo, Japan.">
+<Layout
+	title="Haruto Goda (郷田温人)"
+	description="Haruto Goda (郷田温人) - Software Engineer based in Tokyo, Japan."
+>
 	<main>
 		<section class="hero">
 			<h1>{profile.title}</h1>

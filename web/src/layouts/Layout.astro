@@ -9,7 +9,7 @@ interface Props {
 
 const {
 	title,
-	description = "Haruto Goda's personal website and blog",
+	description = "Haruto Goda (郷田温人)'s personal website and blog",
 	image = "/favicon.ico",
 } = Astro.props;
 
@@ -20,6 +20,15 @@ const canonicalURL = new URL(
 	Astro.site ?? "https://example.com",
 );
 const currentPath = Astro.url.pathname;
+const siteURL = Astro.site ?? "https://example.com";
+
+// Structured data configuration
+const personName = "Haruto Goda";
+const personAlternateNames = ["郷田温人", "Goda Haruto", "ごうだ はると"];
+const personSameAs = [
+	"https://github.com/goda6565",
+	"https://www.linkedin.com/in/haruto-goda/",
+];
 ---
 
 <!doctype html>
@@ -34,6 +43,10 @@ const currentPath = Astro.url.pathname;
 		<title>{pageTitle}</title>
 		<meta name="title" content={pageTitle} />
 		<meta name="description" content={description} />
+		<meta
+			name="keywords"
+			content="Haruto Goda, 郷田温人, Goda Haruto, ごうだ はると, Harutin, Software Engineer, Tokyo"
+		/>
 		<link rel="canonical" href={canonicalURL} />
 
 		<!-- Open Graph / Facebook -->
@@ -43,6 +56,8 @@ const currentPath = Astro.url.pathname;
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={image} />
 		<meta property="og:site_name" content={siteTitle} />
+		<meta property="og:locale" content="en_US" />
+		<meta property="og:locale:alternate" content="ja_JP" />
 
 		<!-- Twitter -->
 		<meta property="twitter:card" content="summary_large_image" />
@@ -50,6 +65,18 @@ const currentPath = Astro.url.pathname;
 		<meta property="twitter:title" content={pageTitle} />
 		<meta property="twitter:description" content={description} />
 		<meta property="twitter:image" content={image} />
+
+		<!-- JSON-LD Person Schema -->
+		<script type="application/ld+json">
+			{JSON.stringify({
+				"@context": "https://schema.org",
+				"@type": "Person",
+				name: personName,
+				alternateName: personAlternateNames,
+				url: siteURL,
+				sameAs: personSameAs,
+			})}
+		</script>
 	</head>
 	<body>
 		<Nav currentPath={currentPath} client:load />

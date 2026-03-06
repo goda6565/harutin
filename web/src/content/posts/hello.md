@@ -13,6 +13,7 @@ Welcome to my blog. This is my first blog post.
 ## Who am I?
 
 I'm Haruto Goda, a software engineer based in Tokyo, Japan.
+(郷田温人 としても知られています。)
 
 I'm currently a student at Waseda University, researching compilers for low power consumption.
 
