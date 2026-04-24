@@ -45,9 +45,25 @@ const profile = {
 		},
 	],
 };
+
+const personJsonLd = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: "Haruto Goda",
+	alternateName: ["郷田温人", "郷田 温人", "Goda Haruto"],
+	jobTitle: "Software Engineer",
+	url: Astro.site ? new URL("/", Astro.site).toString() : Astro.url.origin,
+	sameAs: profile.links.map((link) => link.url),
+};
 ---
 
-<Layout description="Haruto Goda - Software Engineer based in Tokyo, Japan.">
+<Layout
+	title="Haruto Goda (郷田温人)"
+	description="Haruto Goda (郷田温人) - Software Engineer based in Tokyo, Japan."
+	author="Haruto Goda"
+	keywords={["Haruto Goda", "Goda Haruto", "郷田温人", "郷田 温人", "harutin"]}
+	jsonLd={personJsonLd}
+>
 	<main>
 		<section class="hero">
 			<h1>{profile.title}</h1>

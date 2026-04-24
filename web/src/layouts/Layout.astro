@@ -5,12 +5,18 @@ interface Props {
 	title?: string;
 	description?: string;
 	image?: string;
+	author?: string;
+	keywords?: string[];
+	jsonLd?: Record<string, unknown>;
 }
 
 const {
 	title,
 	description = "Haruto Goda's personal website and blog",
 	image = "/favicon.ico",
+	author,
+	keywords = [],
+	jsonLd,
 } = Astro.props;
 
 const siteTitle = "Harutin";
@@ -34,6 +40,10 @@ const currentPath = Astro.url.pathname;
 		<title>{pageTitle}</title>
 		<meta name="title" content={pageTitle} />
 		<meta name="description" content={description} />
+		{author && <meta name="author" content={author} />}
+		{keywords.length > 0 && (
+			<meta name="keywords" content={keywords.join(", ")} />
+		)}
 		<link rel="canonical" href={canonicalURL} />
 
 		<!-- Open Graph / Facebook -->
@@ -50,6 +60,14 @@ const currentPath = Astro.url.pathname;
 		<meta property="twitter:title" content={pageTitle} />
 		<meta property="twitter:description" content={description} />
 		<meta property="twitter:image" content={image} />
+		{
+			jsonLd && (
+				<script
+					type="application/ld+json"
+					set:html={JSON.stringify(jsonLd)}
+				/>
+			)
+		}
 	</head>
 	<body>
 		<Nav currentPath={currentPath} client:load />
