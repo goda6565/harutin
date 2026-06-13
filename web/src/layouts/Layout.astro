@@ -63,6 +63,7 @@ const currentPath = Astro.url.pathname;
 		{
 			jsonLd && (
 				<script
+					is:inline
 					type="application/ld+json"
 					set:html={JSON.stringify(jsonLd)}
 				/>
